@@ -29,22 +29,22 @@ public static class DbContextInitializer
 
     public static void InitializeDbContext(AppDbContext appDbContext)
     {
-        const string Boost1 = "Рудокоп";
-        const string Boost2 = "Призрак";
-        const string Boost3 = "Стражник";
-        const string Boost4 = "Маг огня";
-        const string Boost5 = "Рудный барон";
+        const string Boost0 = "Бурлок";
+        const string Boost1 = "Гримлин";
+        const string Boost2 = "Гранитус";
+        const string Boost3 = "Камнелом";
+        const string Boost4 = "Скалистор";
 
         appDbContext.Database.Migrate();
 
         var existingBoosts = appDbContext.Boosts
             .ToArray();
 
-        AddBoostIfNotExist(Boost1, price: 100, profit: 1);
-        AddBoostIfNotExist(Boost2, price: 500, profit: 15);
-        AddBoostIfNotExist(Boost3, price: 2000, profit: 60, isAuto: true);
-        AddBoostIfNotExist(Boost4, price: 10000, profit: 400);
-        AddBoostIfNotExist(Boost5, price: 100000, profit: 5000, isAuto: true);
+        AddBoostIfNotExist(Boost0, price: 100, profit: 1);
+        AddBoostIfNotExist(Boost1, price: 500, profit: 15);
+        AddBoostIfNotExist(Boost2, price: 2000, profit: 60, isAuto: true);
+        AddBoostIfNotExist(Boost3, price: 10000, profit: 400);
+        AddBoostIfNotExist(Boost4, price: 100000, profit: 5000, isAuto: true);
 
         AddRandomUsers();
 
@@ -85,7 +85,7 @@ public static class DbContextInitializer
         {
             if (!existingBoosts.Any(eb => eb.Title == name))
             {
-                var pathToImage = Path.Combine(".", "Resources", "BoostImages", $"{name}.png");
+                var pathToImage = Path.Combine(".", "Resources", "BoostImages", $"{name}.jpg");
                 using var fileStream = File.OpenRead(pathToImage);
                 using var memoryStream = new MemoryStream();
 
