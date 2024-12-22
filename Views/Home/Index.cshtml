@@ -8,54 +8,69 @@
     <link href="@Url.Content("~/css/index.css")" rel="stylesheet">
 }
 
-<div class="row">
+<section class="content">
+    <ul class="boosts-list">
+        @foreach (var boost in Model.Boosts)
+        {
+            var userBoost = Model.User.UserBoosts.FirstOrDefault(ub => ub.BoostId == boost.Id);
 
-    <div class="col">
-        <div>
-            <h3>Добро пожаловать в колонию, @Model.User.UserName</h3>
-            <h4>У тебя уже накоплено <span id="current_score">@Model.User.CurrentScore</span> кусков руды</h4>
-            <h4>Всего ты добыл <span id="record_score">@Model.User.RecordScore</span> кусков руды</h4>
-            <h4>С одного удара киркой ты добываешь <span id="profit_per_click">@Model.User.ProfitPerClick</span> кусков</h4>
-            <h4>Твои подчиненные ежесекундно добывают <span id="profit_per_second">@Model.User.ProfitPerSecond</span> кусков</h4>
-        </div>
-    </div>
+            var price = userBoost?.CurrentPrice ?? boost.Price;
+            var quantity = userBoost?.Quantity ?? 0;
 
-    <div class="col justify-content-center">
-         <button id="clickitem" class="click-item bg-transparent border-0">
-             <img class="w-50" src="~/ore.png" />
-         </button>
-    </div>
-
-    <div class="col">
-        <h3>Бусты</h3>
-        <div class="d-flex">
-            @foreach (var boost in Model.Boosts)
-            {
-                var userBoost = Model.User.UserBoosts.FirstOrDefault(ub => ub.BoostId == boost.Id);
-
-                var price = userBoost?.CurrentPrice ?? boost.Price;
-                var quantity = userBoost?.Quantity ?? 0;
-
-                <button class="boost-button border-0 bg-secondary m-3">
+            <li class="boost">
+                <div>
                     <span class="boost-id" hidden>@boost.Id</span>
-                    <h4>@boost.Title</h4>
-                    <img src="data:image/png;base64, @Convert.ToBase64String(boost.Image)" height="100" />
-                    <h5 class="boost-price-string">Цена: <span class="boost-price">@price</span></h5>
-                    <h5>
-                        Доход: @boost.Profit
-                        @if (boost.IsAuto)
-                        {
-                            <span> в секунду</span>
-                        }
-                    </h5>
-                    <h5>
-                        Количество приобретенных бустов: <span class="boost-quantity">@quantity</span>
-                    </h5>
-                </button>
-            }
+                    <h4 class="boost-title">@boost.Title</h4>
+                    <img src="data:image/png;base64, @Convert.ToBase64String(boost.Image)" />
+                </div>
+                <div class="description">
+                    <ul class="boost-description-list">
+                        <li class="boost-description-item">
+                            <h5 class="boost-price-string">Цена: <span class="boost-price">@price</span></h5>
+                        </li>
+                        <li class="boost-description-item">
+                            @if (boost.IsAuto)
+                            {
+                                <h5>Доход в секунду: <span>@boost.Profit</span></h5>
+                            }
+                            else
+                            {
+                                <h5>Доход за удар: <span>@boost.Profit</span></h5>
+                            }
+                        </li>
+                        <li class="boost-description-item">
+                            <h5>Куплено: <span class="boost-quantity">@quantity</span></h5>
+                        </li>
+                    </ul>
+                </div>
+                <button class="boost-button">Купить</button>
+            </li>
+        }
+    </ul>
+    <div class="container">
+        <ul class="info">
+            <li class="info-item score">
+                <h4>Текущий счёт:</h4>
+                <p id="current_score">@Model.User.CurrentScore</p>
+            </li>
+            <li class="info-item" hidden>
+                <h4>За все время добыто:</h4>
+                <p id="record_score">@Model.User.RecordScore</p>
+            </li>
+            <li class="info-item">
+                <h4>Доход за удар:</h4>
+                <p id="profit_per_click">@Model.User.ProfitPerClick</p>
+            </li>
+            <li class="info-item">
+                <h4>Доход в секунду:</h4>
+                <p id="profit_per_second">@Model.User.ProfitPerSecond</p>
+            </li>
+        </ul>
+        <div id="clickitem" class="click-item">
+            <img src="~/cave.png" />
         </div>
     </div>
-</div>
+</section>
 
 @section scripts {
     <script src="~/js/index.js"></script>

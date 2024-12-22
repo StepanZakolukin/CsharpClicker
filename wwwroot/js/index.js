@@ -17,26 +17,27 @@ $(document).ready(function () {
     clickitem.onclick = click;
     setInterval(addSecond, 1000)
 
-    const boostButtons = document.getElementsByClassName("boost-button");
+    const boosts = document.getElementsByClassName("boost");
 
-    for (let i = 0; i < boostButtons.length; i++) {
-        const boostButton = boostButtons[i];
+    for (let i = 0; i < boosts.length; i++) {
+        const boost = boosts[i]
+        const boostButton = boost.querySelector(".boost-button");
 
-        boostButton.onclick = () => boostButtonClick(boostButton);
+        boostButton.onclick = () => boostButtonClick(boost);
     }
 
     toggleBoostsAvailability();
 })
 
-function boostButtonClick(boostButton) {
+function boostButtonClick(boost) {
     if (clicks > 0 || seconds > 0) {
         addPointsToScore();
     }
-    buyBoost(boostButton);
+    buyBoost(boost);
 }
 
-function buyBoost(boostButton) {
-    const boostIdElement = boostButton.getElementsByClassName("boost-id")[0];
+function buyBoost(boost) {
+    const boostIdElement = boost.querySelector(".boost-id");
     const boostId = boostIdElement.innerText;
 
     $.ajax({
@@ -44,15 +45,15 @@ function buyBoost(boostButton) {
         method: 'post',
         dataType: 'json',
         data: { boostId: boostId },
-        success: (response) => onBuyBoostSuccess(response, boostButton),
+        success: (response) => onBuyBoostSuccess(response, boost),
     });
 }
 
-function onBuyBoostSuccess(response, boostButton) {
+function onBuyBoostSuccess(response, boost) {
     const score = response["score"];
 
-    const boostPriceElement = boostButton.getElementsByClassName("boost-price")[0];
-    const boostQuantityElement = boostButton.getElementsByClassName("boost-quantity")[0];
+    const boostPriceElement = boost.querySelector(".boost-price");
+    const boostQuantityElement = boost.querySelector(".boost-quantity");
 
     const boostPrice = Number(response["price"]);
     const boostQuantity = Number(response["quantity"]);
@@ -137,19 +138,20 @@ function onAddPointsSuccess(response) {
 }
 
 function toggleBoostsAvailability() {
-    const boostButtons = document.getElementsByClassName("boost-button");
+    const boosts = document.getElementsByClassName("boost");
 
-    for (let i = 0; i < boostButtons.length; i++) {
-        const boostButton = boostButtons[i];
-
-        const boostPriceElement = boostButton.getElementsByClassName("boost-price")[0];
+    for (let i = 0; i < boosts.length; i++) {
+        const boostButton = boosts[i].querySelector(".boost-button");
+        const boostPriceElement = boosts[i].querySelector(".boost-price");
         const boostPrice = Number(boostPriceElement.innerText);
 
         if (boostPrice > currentScore) {
             boostButton.disabled = true;
+            boostButton.classList.add("active")
             continue;
         }
 
         boostButton.disabled = false;
+        boostButton.classList.remove("active")
     } 
 }

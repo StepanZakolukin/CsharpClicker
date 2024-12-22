@@ -29,9 +29,9 @@ public static class DbContextInitializer
 
     public static void InitializeDbContext(AppDbContext appDbContext)
     {
-        const string Boost0 = "Бурлок";
-        const string Boost1 = "Гримлин";
-        const string Boost2 = "Гранитус";
+        const string Boost0 = "Гримлин";
+        const string Boost1 = "Бурлок";
+        const string Boost2 = "Рубинус";
         const string Boost3 = "Камнелом";
         const string Boost4 = "Скалистор";
 

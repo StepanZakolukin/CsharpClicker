@@ -22,10 +22,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="wwwroot\cave.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Resources\BoostImages\Бурлок.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\BoostImages\Гранитус.jpg">
+    <None Update="Resources\BoostImages\Рубинус.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resources\BoostImages\Гримлин.jpg">
